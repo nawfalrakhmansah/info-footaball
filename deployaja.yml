@@ -1,9 +1,6 @@
-version: "1"
+app: info-footaball
 
-app:
-  name: info-football
-  runtime: container
-  port: 3000
-
-container:
-  image: ghcr.io/nawfalrakhmansah/info-football
+services:
+  web:
+    image: ghcr.io/nawfalrakhmansah/info-footaball:latest
+    port: 3000

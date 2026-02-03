@@ -1,13 +1,12 @@
 const express = require("express");
 const app = express();
-const PORT = 3000;
 
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  res.send("Info Football - Deploy Success 🚀");
+  res.send("Info Football jalan 🚀");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
 });
