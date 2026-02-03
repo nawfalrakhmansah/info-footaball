@@ -1,18 +1,33 @@
-- name: DeployAja Plan
-  uses: deployaja/deployaja-cli@v0.0.15
-  with:
-    command: plan
-    config-file: deployaja.yml
-  env:
-    DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
+name: Deploy
 
-- name: DeployAja Deploy
-  uses: deployaja/deployaja-cli@v0.0.15
-  with:
-    command: deploy
-    config-file: deployaja.yml
-    docker-registry: ghcr.io
-    docker-username: ${{ github.actor }}
-    docker-password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-  env:
-    DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: DeployAja Plan
+        uses: deployaja/deployaja-cli@v0.0.15
+        with:
+          command: plan
+          config-file: deployaja.yml
+        env:
+          DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
+
+      - name: DeployAja Deploy
+        uses: deployaja/deployaja-cli@v0.0.15
+        with:
+          command: deploy
+          config-file: deployaja.yml
+          docker-registry: ghcr.io
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        env:
+          DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
