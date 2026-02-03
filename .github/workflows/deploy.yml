@@ -1,37 +1,31 @@
-name: Build & Deploy
+name: Deploy
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ WAJIB PALING ATAS
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ OPTIONAL tapi aman
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      # 3️⃣ DeployAja PLAN
       - name: DeployAja Plan
         uses: deployaja/deployaja-cli@v0.0.15
         with:
           command: plan
           api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
+          config-file: deployaja.yml   # ⬅️ INI DOANG
 
-      # 4️⃣ DeployAja DEPLOY
       - name: DeployAja Deploy
         uses: deployaja/deployaja-cli@v0.0.15
         with:
           command: deploy
           api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
+          config-file: deployaja.yml   # ⬅️ INI DOANG
           docker-registry: ghcr.io
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
