@@ -1,14 +1,10 @@
 name: info-footaball
 
-services:
-  web:
-    image: ghcr.io/nawfalrakhmansah/info-footaball:latest
+image: nginx:latest
 
-    ports:
-      - 3000:3000
+port: 80
 
-    resources:
-      cpu: "500m"
-      memory: "512Mi"
+cpu: "500m"
+memory: "512Mi"
 
-    replicas: 1
+replicas: 1
