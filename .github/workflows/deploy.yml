@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,14 +18,14 @@ jobs:
         with:
           command: plan
           api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
-          config-file: deployaja.yml   # ⬅️ INI DOANG
+          config-file: deployaja.yml
 
       - name: DeployAja Deploy
         uses: deployaja/deployaja-cli@v0.0.15
         with:
           command: deploy
           api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
-          config-file: deployaja.yml   # ⬅️ INI DOANG
+          config-file: deployaja.yml
           docker-registry: ghcr.io
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
