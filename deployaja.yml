@@ -1,11 +1,12 @@
-app:
-  name: info-football
-  runtime: docker
+name: info-football
 
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - 3000
+    image: ghcr.io/nawfalrakhmansah/info-footaball:latest
+    port: 3000
+
+    resources:
+      cpu: "500m"
+      memory: "512Mi"
+
+    replicas: 1
