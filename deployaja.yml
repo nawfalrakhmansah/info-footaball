@@ -1,13 +1,6 @@
-app: info-footaball
-
-services:
-  web:
-    image: ghcr.io/nawfalrakhmansah/info-footaball
-    aapp:
+app:
   name: info-football
   runtime: docker
-  ports:
-    - 3000
 
 services:
   web:
@@ -16,4 +9,3 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3000
-port: 3000
