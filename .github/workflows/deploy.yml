@@ -1,4 +1,12 @@
-name: Deploy to DeployAja
+- name: DeployAja Plan
+  uses: deployaja/deployaja-cli@v0.0.15
+  with:
+    command: plan
+    config-file: deployaja.yml
+  env:
+    DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
+
+- name: DeployAja Deployname: Deploy to DeployAja
 
 on:
   push:
@@ -26,3 +34,10 @@ jobs:
           command: deploy
           api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
           config-file: deployaja.yml
+
+  uses: deployaja/deployaja-cli@v0.0.15
+  with:
+    command: deploy
+    config-file: deployaja.yml
+  env:
+    DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
