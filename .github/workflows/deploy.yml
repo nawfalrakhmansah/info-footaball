@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy to DeployAja
 
 on:
   push:
@@ -26,6 +26,3 @@ jobs:
           command: deploy
           api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
           config-file: deployaja.yml
-          docker-registry: ghcr.io
-          docker-username: ${{ github.actor }}
-          docker-password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
