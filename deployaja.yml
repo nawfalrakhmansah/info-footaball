@@ -1,9 +1,11 @@
-name: info-football
+name: info-footaball
 
 services:
   web:
     image: ghcr.io/nawfalrakhmansah/info-footaball:latest
-    port: 3000
+
+    ports:
+      - 3000:3000
 
     resources:
       cpu: "500m"
