@@ -1,9 +1,16 @@
-name: info-footaball
+name: my-app
+version: 1.0.0
+description: My awesome application
+container:
+  image: info-football:latest
+  port: 3000
+resources:
+  cpu: 500m
+  memory: 512Mi
+  replicas: 1
+env:
+  - name: NODE_ENV
+    value: production
 
-services:
-  web:
-    image: ghcr.io/nawfalrakhmansah/info-footaball:latest
-    port: 80
-    cpu: 500m
-    memory: 512Mi
-    replicas: 1
+    
+domain: info-football.deployaja.id
