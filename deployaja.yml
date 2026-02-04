@@ -2,7 +2,7 @@ name: football
 version: 1.0.0
 description: My awesome application
 container:
-  image: info-football:latest
+  image: info-football
   port: 3000
 resources:
   cpu: 500m
