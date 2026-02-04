@@ -70,4 +70,4 @@ jobs:
         with:
           command: status
           api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
-          config-file: deployaja.yml
+         
