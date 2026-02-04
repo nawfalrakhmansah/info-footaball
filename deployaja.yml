@@ -11,8 +11,4 @@ resources:
   memory: 512Mi
   replicas: 1
 
-env:
-  - name: NODE_ENV
-    value: production
-
 domain: info-football.deployaja.id

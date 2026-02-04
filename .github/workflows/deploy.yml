@@ -1,15 +1,13 @@
-name: Docker Build and Publish and Deploy to DeployAja
+name: Docker Build, Push, and Deploy to DeployAja
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 env:
-  REGISTRY: ghcr.io/nawfalrakhmansah/info-footaball
-  GH_REGISTRY: ghcr.io
+  REGISTRY: ghcr.io/nawfalrakhmansah
   IMAGE_NAME: info-footaball
+  GH_REGISTRY: ghcr.io
   DOCKER_BUILDKIT: 1
 
 jobs:
@@ -26,39 +24,46 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to GitHub Container Registry
+      - name: Login to GHCR
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.GH_REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build & Push Docker Image
         uses: docker/build-push-action@v5
         with:
+          context: .
           push: true
-          tags: ${{ env.REGISTRY }}:${{ github.sha }}
+          tags: ghcr.io/nawfalrakhmansah/info-footaball:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-push
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: DeployAja Plan
+        uses: deployaja/deployaja-cli@v0.0.10
+        with:
+          command: plan
+          api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
+          config-file: deployaja.yml
 
       - name: DeployAja Deploy
         uses: deployaja/deployaja-cli@v0.0.10
         with:
           command: deploy
           api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
-          additional-args: --set container.image=${{ env.REGISTRY }}:${{ github.sha }}
+          config-file: deployaja.yml
+          additional-args: --set container.image=ghcr.io/nawfalrakhmansah/info-footaball:${{ github.sha }}
 
       - name: DeployAja Status
         uses: deployaja/deployaja-cli@v0.0.10
         with:
           command: status
           api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
+          config-file: deployaja.yml
