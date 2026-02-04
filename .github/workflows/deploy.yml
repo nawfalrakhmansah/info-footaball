@@ -9,7 +9,7 @@ on:
 env:
   REGISTRY: ghcr.io/nawfalrakhmansah/info-footaball
   GH_REGISTRY: ghcr.io
-  IMAGE_NAME: info-football
+  IMAGE_NAME: info-footaball
   DOCKER_BUILDKIT: 1
 
 jobs:
@@ -26,7 +26,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to the Container registry
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.GH_REGISTRY }}
@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          tags: ${{ env.REGISTRY }}:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,25 +49,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
-      - name: DeployAja Plan
-        uses: deployaja/deployaja-cli@v0.0.10
-        with:
-          command: plan
-          api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
-          config-file: deployaja.yml
-          
+
       - name: DeployAja Deploy
         uses: deployaja/deployaja-cli@v0.0.10
         with:
           command: deploy
           api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
-          config-file: deployaja.yml
-          additional-args: --set container.image=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          
+          additional-args: --set container.image=${{ env.REGISTRY }}:${{ github.sha }}
+
       - name: DeployAja Status
         uses: deployaja/deployaja-cli@v0.0.10
         with:
           command: status
           api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
-         
