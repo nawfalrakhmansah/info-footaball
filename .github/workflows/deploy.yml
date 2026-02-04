@@ -2,12 +2,14 @@ name: Docker Build and Publish and Deploy to DeployAja
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 env:
-  REGISTRY: ghcr.io/nawfalrakhmansah
-  IMAGE_NAME: info-football
+  REGISTRY: ghcr.io/nawfalrakhmansah/info-footaball
   GH_REGISTRY: ghcr.io
+  IMAGE_NAME: info-football
   DOCKER_BUILDKIT: 1
 
 jobs:
@@ -24,14 +26,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to GHCR
+      - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
+          registry: ${{ env.GH_REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
-      - name: Build and push image
+      - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           push: true
@@ -40,29 +42,32 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-push
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+        
       - name: DeployAja Plan
-  uses: deployaja/deployaja-cli@v0.0.10
-  with:
-    command: plan
-    api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
-    config-file: deployaja.yml
-
--  name: DeployAja Deploy
-  uses: deployaja/deployaja-cli@v0.0.10
-  with:
-    command: deploy
-    api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
-    config-file: deployaja.yml
-    additional-args: --set container.image=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-
- -  name: DeployAja Status
-  uses: deployaja/deployaja-cli@v0.0.10
-  with:
-    command: status
-    api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
-    config-file: deployaja.yml
+        uses: deployaja/deployaja-cli@v0.0.10
+        with:
+          command: plan
+          api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
+          config-file: deployaja.yml
+          
+      - name: DeployAja Deploy
+        uses: deployaja/deployaja-cli@v0.0.10
+        with:
+          command: deploy
+          api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
+          config-file: deployaja.yml
+          additional-args: --set container.image=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          
+      - name: DeployAja Status
+        uses: deployaja/deployaja-cli@v0.0.10
+        with:
+          command: status
+          api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
+         
