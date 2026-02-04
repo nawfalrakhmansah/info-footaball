@@ -4,7 +4,7 @@ description: My awesome application
 
 container:
   image: ghcr.io/nawfalrakhmansah/info-footaball/info-football:latest
-  port: 3000
+  port: 80
   imagePullSecrets:
     - name: ghcr-secret
 
