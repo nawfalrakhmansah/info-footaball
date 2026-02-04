@@ -46,26 +46,26 @@ jobs:
         uses: actions/checkout@v4
 
       - name: DeployAja Plan
-        uses: deployaja/deployaja-cli@v0.0.10
-        env:
-          DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
-        with:
-          command: plan
-          config-file: deployaja.yml
+  uses: deployaja/deployaja-cli@v0.0.10
+  env:
+    DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
+  with:
+    command: plan
+    config-file: deployaja.yml
 
-      - name: DeployAja Deploy
-        uses: deployaja/deployaja-cli@v0.0.10
-        env:
-          DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
-        with:
-          command: deploy
-          config-file: deployaja.yml
-          additional-args: --set container.image=ghcr.io/nawfalrakhmansah/info-footaball:${{ github.sha }}
+- name: DeployAja Deploy
+  uses: deployaja/deployaja-cli@v0.0.10
+  env:
+    DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
+  with:
+    command: deploy
+    config-file: deployaja.yml
+    additional-args: --set container.image=ghcr.io/nawfalrakhmansah/info-footaball:${{ github.sha }}
 
-      - name: DeployAja Status
-        uses: deployaja/deployaja-cli@v0.0.10
-        env:
-          DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
-        with:
-          command: status
-          config-file: deployaja.yml
+- name: DeployAja Status
+  uses: deployaja/deployaja-cli@v0.0.10
+  env:
+    DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
+  with:
+    command: status
+    config-file: deployaja.yml
