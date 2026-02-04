@@ -9,7 +9,7 @@ on:
 env:
   REGISTRY: ghcr.io/nawfalrakhmansah/info-footaball
   GH_REGISTRY: ghcr.io
-  IMAGE_NAME: info-football:latest
+  IMAGE_NAME: info-football
   DOCKER_BUILDKIT: 1
 
 jobs:
