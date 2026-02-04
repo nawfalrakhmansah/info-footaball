@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  REGISTRY: ghcr.io/nawfalrakhmansah/info-football
+  REGISTRY: ghcr.io/nawfalrakhmansah/info-footaball
   GH_REGISTRY: ghcr.io
   IMAGE_NAME: info-football:latest
   DOCKER_BUILDKIT: 1
