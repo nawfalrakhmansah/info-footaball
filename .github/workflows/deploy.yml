@@ -50,12 +50,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         
-      - name: DeployAja Deploy
+      - name: DeployAja Plan
   uses: deployaja/deployaja-cli@v0.0.10
   with:
-    command: deploy
+    command: plan
     config-file: deployaja.yml
-    additional-args: --set container.image=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
   env:
     DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
 
