@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy to DeployAja
 
 on:
   push:
@@ -17,17 +17,12 @@ jobs:
         uses: deployaja/deployaja-cli@v0.0.15
         with:
           command: plan
+          api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
           config-file: deployaja.yml
-        env:
-          DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
 
       - name: DeployAja Deploy
         uses: deployaja/deployaja-cli@v0.0.15
         with:
           command: deploy
+          api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
           config-file: deployaja.yml
-          docker-registry: ghcr.io
-          docker-username: ${{ github.actor }}
-          docker-password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        env:
-          DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
