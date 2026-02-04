@@ -2,8 +2,8 @@ name: info-footaball
 
 services:
   web:
-    image: nginx:latest
+    image: ghcr.io/nawfalrakhmansah/info-footaball:latest
     port: 80
-    cpu: "500m"
-    memory: "512Mi"
+    cpu: 500m
+    memory: 512Mi
     replicas: 1
