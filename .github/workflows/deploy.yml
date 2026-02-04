@@ -1,4 +1,4 @@
-name: Deploy to DeployAja
+name: Build and Deploy
 
 on:
   push:
@@ -6,23 +6,43 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # LOGIN KE GHCR
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # BUILD & PUSH DOCKER IMAGE
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository }}:latest
+
+      # DEPLOYAJA PLAN
       - name: DeployAja Plan
         uses: deployaja/deployaja-cli@v0.0.15
         with:
           command: plan
-          api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
           config-file: deployaja.yml
+        env:
+          DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
 
+      # DEPLOYAJA DEPLOY
       - name: DeployAja Deploy
         uses: deployaja/deployaja-cli@v0.0.15
         with:
           command: deploy
-          api-token: ${{ secrets.DEPLOYAJA_TOKEN }}
           config-file: deployaja.yml
+        env:
+          DEPLOYAJA_TOKEN: ${{ secrets.DEPLOYAJA_TOKEN }}
