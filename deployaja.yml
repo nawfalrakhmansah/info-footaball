@@ -1,12 +1,10 @@
 name: football
 version: 1.0.0
-description: My awesome application
+description: Info Football App
 
 container:
-  image: ghcr.io/nawfalrakhmansah/info-footaball/info-football:latest
+  image: ghcr.io/nawfalrakhmansah/info-footaball:latest
   port: 80
-  imagePullSecrets:
-    - name: ghcr-secret
 
 resources:
   cpu: 500m
